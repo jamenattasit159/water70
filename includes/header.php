@@ -12,7 +12,7 @@ $pageTitle = $pageTitle ?? 'ระบบบริหารจัดการข�
 $currentScript = basename($_SERVER['PHP_SELF'] ?? '');
 ?>
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -20,11 +20,10 @@ $currentScript = basename($_SERVER['PHP_SELF'] ?? '');
     <link rel="stylesheet" href="assets/css/theme.css">
     <link rel="icon" type="image/png" href="logo.png">
     <script>
-        // Init theme immediately to prevent flashing
+        // Init theme immediately to prevent flashing (Default to Light theme on first visit)
         (function() {
             const savedTheme = localStorage.getItem('water_theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            if (savedTheme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
