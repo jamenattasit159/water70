@@ -18,13 +18,13 @@ require_once __DIR__ . '/includes/header.php';
     <!-- Header & Action Bar -->
     <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
         <div>
-            <div style="font-size: 0.85rem; color: var(--slate-500); margin-bottom: 0.25rem;">
+            <div style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.35rem; font-weight: 500;">
                 ส่วนงานบริหารยุทธศาสตร์ &gt; สสจ.อ่างทอง &gt; ศูนย์บริหารจัดการสถานการณ์อุทกภัย
             </div>
-            <h1 style="font-size: 1.75rem; color: var(--navy-900);">
+            <h1 style="font-size: 2rem; font-weight: 700; color: var(--color-text); margin-bottom: 0.35rem;">
                 สรุปยอดสถานการณ์อุทกภัยและสาธารณสุข ระดับจังหวัดอ่างทอง
             </h1>
-            <div style="color: var(--slate-600); font-size: 0.95rem;">
+            <div style="color: var(--color-text-secondary); font-size: 1.05rem;">
                 ศูนย์ข้อมูลกลางติดตามสถานบริการสาธารณสุขและกลุ่มเปราะบาง 7 อำเภอ (พ.ศ. 2569)
             </div>
         </div>
@@ -48,24 +48,24 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 
     <!-- Date Picker & District Filter Toolbar -->
-    <div class="gov-card" style="margin-bottom: 2rem; border-top: 3px solid var(--navy-800);">
-        <div style="padding: 1.15rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+    <div class="card" style="margin-bottom: 1.75rem;">
+        <div style="padding: 1rem 1.35rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
             <!-- Date Filter -->
             <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <label for="overview_date" style="font-weight: 600; color: var(--navy-900); font-size: 0.95rem;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -3px; margin-right: 2px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <label for="overview_date" style="font-weight: 500; color: var(--color-text); font-size: 0.9rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                     วันที่ของรายงาน:
                 </label>
-                <input type="date" id="overview_date" value="<?= $todayDate ?>" class="form-control" style="width: auto; font-weight: 600; padding: 0.45rem 0.85rem;">
+                <input type="date" id="overview_date" value="<?= $todayDate ?>" class="form-control" style="width: auto; font-weight: 500; padding: 0.35rem 0.75rem; height: 38px;">
                 <button type="button" class="btn btn-sm btn-outline" onclick="setDateToday()">วันนี้</button>
             </div>
 
             <!-- District Filter -->
             <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <label for="overview_district" style="font-weight: 500; color: var(--slate-700); font-size: 0.9rem;">
+                <label for="overview_district" style="font-weight: 500; color: var(--color-text-muted); font-size: 0.875rem;">
                     พื้นที่อำเภอ:
                 </label>
-                <select id="overview_district" class="form-select" style="width: auto; min-width: 200px;">
+                <select id="overview_district" class="form-select" style="width: auto; min-width: 200px; height: 38px;">
                     <option value="0">-- ทุกอำเภอ (7 อำเภอ) --</option>
                     <?php foreach ($districts as $d): ?>
                         <option value="<?= $d['id'] ?>"><?= htmlspecialchars($d['name_th']) ?></option>
@@ -89,51 +89,51 @@ require_once __DIR__ . '/includes/header.php';
         </div>
 
         <!-- 2. Facilities affected -->
-        <div class="stat-card" style="border-left: 4px solid var(--rose-600);">
-            <div class="stat-icon rose">
+        <div class="stat-card">
+            <div class="stat-icon danger">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
             </div>
             <div class="stat-details">
-                <div class="stat-value" id="kpi_facilities_affected" style="color: var(--rose-700);">-</div>
+                <div class="stat-value" id="kpi_facilities_affected" style="color: var(--color-danger-text);">-</div>
                 <div class="stat-label">สถานบริการได้รับผลกระทบ</div>
             </div>
         </div>
 
         <!-- 3. Total Vulnerable Flooded -->
-        <div class="stat-card" style="border-left: 4px solid var(--gold-600); background: linear-gradient(to bottom, #ffffff, #fffbeb);">
-            <div class="stat-icon gold">
+        <div class="stat-card">
+            <div class="stat-icon warning">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             </div>
             <div class="stat-details">
-                <div class="stat-value" id="kpi_vulnerable_flooded" style="color: var(--gold-700);">-</div>
+                <div class="stat-value" id="kpi_vulnerable_flooded" style="color: var(--color-warning-text);">-</div>
                 <div class="stat-label">กลุ่มเปราะบางในพื้นที่น้ำท่วม (ราย)</div>
             </div>
         </div>
 
         <!-- 4. People served by mobile teams -->
         <div class="stat-card">
-            <div class="stat-icon emerald">
+            <div class="stat-icon success">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
             </div>
             <div class="stat-details">
-                <div class="stat-value" id="kpi_people_served" style="color: var(--emerald-600);">-</div>
+                <div class="stat-value" id="kpi_people_served" style="color: var(--color-success-text);">-</div>
                 <div class="stat-label">ประชาชนที่ได้รับบริการ (คน)</div>
             </div>
         </div>
     </div>
 
     <!-- Navigation Tabs for Views -->
-    <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--slate-200); padding-bottom: 2px;">
-        <button type="button" class="tab-btn active" data-tab="tab_districts" style="font-family: var(--font-heading); font-weight: 600; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid var(--navy-800); color: var(--navy-900); cursor: pointer; font-size: 0.95rem;">
+    <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 2px;">
+        <button type="button" class="tab-btn active" data-tab="tab_districts" style="font-family: var(--font-heading); font-weight: 600; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid var(--color-primary); color: var(--color-primary); cursor: pointer; font-size: 0.95rem;">
             ภาพรวมแยก 7 อำเภอ
         </button>
-        <button type="button" class="tab-btn" data-tab="tab_vulnerable" style="font-family: var(--font-heading); font-weight: 600; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid transparent; color: var(--slate-500); cursor: pointer; font-size: 0.95rem;">
+        <button type="button" class="tab-btn" data-tab="tab_vulnerable" style="font-family: var(--font-heading); font-weight: 500; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid transparent; color: var(--color-text-muted); cursor: pointer; font-size: 0.95rem;">
             สรุปยอด 8 กลุ่มเปราะบาง
         </button>
-        <button type="button" class="tab-btn" data-tab="tab_facilities" style="font-family: var(--font-heading); font-weight: 600; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid transparent; color: var(--slate-500); cursor: pointer; font-size: 0.95rem;">
+        <button type="button" class="tab-btn" data-tab="tab_facilities" style="font-family: var(--font-heading); font-weight: 500; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid transparent; color: var(--color-text-muted); cursor: pointer; font-size: 0.95rem;">
             รายชื่อสถานบริการและสถานะการส่ง
         </button>
-        <button type="button" class="tab-btn" data-tab="tab_logs" style="font-family: var(--font-heading); font-weight: 600; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid transparent; color: var(--slate-500); cursor: pointer; font-size: 0.95rem;">
+        <button type="button" class="tab-btn" data-tab="tab_logs" style="font-family: var(--font-heading); font-weight: 500; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid transparent; color: var(--color-text-muted); cursor: pointer; font-size: 0.95rem;">
             ประวัติการปฏิบัติงานในระบบ (Audit Logs)
         </button>
     </div>
@@ -365,12 +365,12 @@ require_once __DIR__ . '/includes/header.php';
 
 <div class="modal-overlay" id="report_detail_modal">
     <div class="modal-dialog" style="max-width: 1100px; width: 96vw; max-height: 92vh;">
-        <div class="modal-header" style="background: linear-gradient(135deg, #0f2c4c 0%, #1e3a8a 100%); color: #ffffff;">
-            <h3 class="modal-title" id="modal_report_title" style="color: #ffffff; font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem;">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal_report_title" style="font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem; color: var(--color-text);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                 <span>รายละเอียดรายงานสถานการณ์อุทกภัยประจำวัน</span>
             </h3>
-            <button type="button" class="modal-close" style="color: #ffffff; opacity: 0.85;">&times;</button>
+            <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body" id="modal_report_body" style="padding: 1.25rem 1.5rem; overflow-y: auto;">
             กำลังโหลดข้อมูล...
@@ -636,11 +636,10 @@ document.addEventListener('DOMContentLoaded', function () {
             headerColor: '#fef08a',
             headerTextColor: '#854d0e',
             columns: [
-                { key: 'bedridden_total', label: 'จำนวนทั้งหมด<br>ในหมู่ (ราย)', width: '14%' },
-                { key: 'bedridden_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '14%', isFlood: true },
-                { key: 'bedridden_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '14%' },
-                { key: 'bedridden_shelter', label: 'การช่วยเหลือ:<br>ศูนย์พักพิง (ราย)', width: '14%' },
-                { key: 'bedridden_hospital', label: 'ส่งต่อ รพ.<br>(ราย)', width: '14%' }
+                { key: 'bedridden_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '16%', isFlood: true },
+                { key: 'bedridden_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '16%' },
+                { key: 'bedridden_shelter', label: 'การช่วยเหลือ:<br>ศูนย์พักพิง (ราย)', width: '16%' },
+                { key: 'bedridden_hospital', label: 'ส่งต่อ รพ.<br>(ราย)', width: '16%' }
             ]
         },
         'dialysis': {
@@ -650,11 +649,10 @@ document.addEventListener('DOMContentLoaded', function () {
             headerColor: '#e9d5ff',
             headerTextColor: '#581c87',
             columns: [
-                { key: 'dialysis_total', label: 'จำนวนทั้งหมด<br>ในหมู่ (ราย)', width: '14%' },
-                { key: 'dialysis_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '14%', isFlood: true },
-                { key: 'dialysis_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '14%' },
-                { key: 'dialysis_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '14%' },
-                { key: 'dialysis_missed', label: 'ขาดการฟอกไต<br>(ราย)', width: '14%', isAlert: true }
+                { key: 'dialysis_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '16%', isFlood: true },
+                { key: 'dialysis_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '16%' },
+                { key: 'dialysis_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '16%' },
+                { key: 'dialysis_missed', label: 'ขาดการฟอกไต<br>(ราย)', width: '16%', isAlert: true }
             ]
         },
         'psychiatric': {
@@ -664,11 +662,10 @@ document.addEventListener('DOMContentLoaded', function () {
             headerColor: '#fed7aa',
             headerTextColor: '#7c2d12',
             columns: [
-                { key: 'psychiatric_total', label: 'จำนวนทั้งหมด<br>ในหมู่ (ราย)', width: '14%' },
-                { key: 'psychiatric_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '14%', isFlood: true },
-                { key: 'psychiatric_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '14%' },
-                { key: 'psychiatric_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '14%' },
-                { key: 'psychiatric_health_issue', label: 'พบปัญหาด้าน<br>สุขภาพ (ราย)', width: '14%', isAlert: true }
+                { key: 'psychiatric_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '16%', isFlood: true },
+                { key: 'psychiatric_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '16%' },
+                { key: 'psychiatric_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '16%' },
+                { key: 'psychiatric_health_issue', label: 'พบปัญหาด้าน<br>สุขภาพ (ราย)', width: '16%', isAlert: true }
             ]
         },
         'elderly': {
@@ -678,11 +675,10 @@ document.addEventListener('DOMContentLoaded', function () {
             headerColor: '#dbeafe',
             headerTextColor: '#1e3a8a',
             columns: [
-                { key: 'elderly_total', label: 'จำนวนทั้งหมด<br>ในหมู่ (ราย)', width: '14%' },
-                { key: 'elderly_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '14%', isFlood: true },
-                { key: 'elderly_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '14%' },
-                { key: 'elderly_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '14%' },
-                { key: 'elderly_out_of_meds', label: 'มีโรคประจำตัว/<br>ขาดยา (ราย)', width: '14%', isAlert: true }
+                { key: 'elderly_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '16%', isFlood: true },
+                { key: 'elderly_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '16%' },
+                { key: 'elderly_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '16%' },
+                { key: 'elderly_out_of_meds', label: 'มีโรคประจำตัว/<br>ขาดยา (ราย)', width: '16%', isAlert: true }
             ]
         },
         'disabled': {
@@ -692,11 +688,10 @@ document.addEventListener('DOMContentLoaded', function () {
             headerColor: '#ccfbf1',
             headerTextColor: '#115e59',
             columns: [
-                { key: 'disabled_total', label: 'จำนวนทั้งหมด<br>ในหมู่ (ราย)', width: '14%' },
-                { key: 'disabled_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '14%', isFlood: true },
-                { key: 'disabled_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '14%' },
-                { key: 'disabled_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '14%' },
-                { key: 'disabled_health_issue', label: 'พบปัญหาด้าน<br>สุขภาพ (ราย)', width: '14%', isAlert: true }
+                { key: 'disabled_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '16%', isFlood: true },
+                { key: 'disabled_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '16%' },
+                { key: 'disabled_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '16%' },
+                { key: 'disabled_health_issue', label: 'พบปัญหาด้าน<br>สุขภาพ (ราย)', width: '16%', isAlert: true }
             ]
         },
         'ncd': {
@@ -706,11 +701,10 @@ document.addEventListener('DOMContentLoaded', function () {
             headerColor: '#fecdd3',
             headerTextColor: '#881337',
             columns: [
-                { key: 'ncd_total', label: 'จำนวนทั้งหมด<br>ในหมู่ (ราย)', width: '14%' },
-                { key: 'ncd_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '14%', isFlood: true },
-                { key: 'ncd_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '14%' },
-                { key: 'ncd_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '13%' },
-                { key: 'ncd_out_of_meds', label: 'ขาดยาประจำตัว<br>(ราย)', width: '14%', isAlert: true }
+                { key: 'ncd_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '16%', isFlood: true },
+                { key: 'ncd_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '16%' },
+                { key: 'ncd_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '16%' },
+                { key: 'ncd_out_of_meds', label: 'ขาดยาประจำตัว<br>(ราย)', width: '16%', isAlert: true }
             ]
         },
         'pregnant': {
@@ -720,11 +714,10 @@ document.addEventListener('DOMContentLoaded', function () {
             headerColor: '#fae8ff',
             headerTextColor: '#701a75',
             columns: [
-                { key: 'pregnant_total', label: 'จำนวนทั้งหมด<br>ในหมู่ (ราย)', width: '14%' },
-                { key: 'pregnant_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '14%', isFlood: true },
-                { key: 'pregnant_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '14%' },
-                { key: 'pregnant_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '14%' },
-                { key: 'pregnant_health_issue', label: 'พบปัญหา/เสี่ยง<br>ใกล้คลอด (ราย)', width: '14%', isAlert: true }
+                { key: 'pregnant_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '16%', isFlood: true },
+                { key: 'pregnant_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '16%' },
+                { key: 'pregnant_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '16%' },
+                { key: 'pregnant_health_issue', label: 'พบปัญหา/เสี่ยง<br>ใกล้คลอด (ราย)', width: '16%', isAlert: true }
             ]
         },
         'children': {
@@ -734,11 +727,10 @@ document.addEventListener('DOMContentLoaded', function () {
             headerColor: '#e0e7ff',
             headerTextColor: '#312e81',
             columns: [
-                { key: 'children_total', label: 'จำนวนทั้งหมด<br>ในหมู่ (ราย)', width: '14%' },
-                { key: 'children_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '14%', isFlood: true },
-                { key: 'children_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '14%' },
-                { key: 'children_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '14%' },
-                { key: 'children_health_issue', label: 'พบปัญหาด้าน<br>สุขภาพ (ราย)', width: '14%', isAlert: true }
+                { key: 'children_flooded', label: 'จำนวนในพื้นที่ที่<br>น้ำท่วม (ราย)', width: '16%', isFlood: true },
+                { key: 'children_home', label: 'การช่วยเหลือ:<br>อยู่บ้าน (ราย)', width: '16%' },
+                { key: 'children_shelter', label: 'การช่วยเหลือ:<br>อพยพ (ราย)', width: '16%' },
+                { key: 'children_health_issue', label: 'พบปัญหาด้าน<br>สุขภาพ (ราย)', width: '16%', isAlert: true }
             ]
         }
     };
@@ -795,8 +787,9 @@ document.addEventListener('DOMContentLoaded', function () {
         let theadHtml = `
             <tr>
                 <th rowspan="2" class="col-header-blue" style="width: 5%;">ที่</th>
-                <th rowspan="2" class="col-header-blue" style="width: 15%;">ตำบล</th>
-                <th rowspan="2" class="col-header-blue" style="width: 15%;">หมู่ที่ / ชุมชน</th>
+                <th rowspan="2" class="col-header-blue" style="width: 14%;">ตำบล</th>
+                <th rowspan="2" class="col-header-blue" style="width: 14%;">หมู่ที่ / ชุมชน</th>
+                <th rowspan="2" class="col-header-blue" style="width: 15%; background: #1e3a8a; border-right: 2px solid #3b82f6;">จำนวนคนทั้งหมด<br>ในหมู่ (ราย)</th>
                 <th colspan="${block.columns.length}" style="background-color: ${block.headerColor}; color: ${block.headerTextColor}; font-weight: 700; border-bottom: 1px solid rgba(0,0,0,0.1);">
                     ${block.title}
                 </th>
@@ -811,25 +804,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Render Tbody
         if (currentModalVillages.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="${3 + block.columns.length}" style="padding: 2.5rem; color: #94a3b8; text-align: center;">ไม่มีข้อมูลรายชื่อหมู่บ้านในระบบ</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="${4 + block.columns.length}" style="padding: 2.5rem; color: #94a3b8; text-align: center;">ไม่มีข้อมูลรายชื่อหมู่บ้านในระบบ</td></tr>`;
             tfoot.innerHTML = '';
             return;
         }
 
         const totals = {};
         block.columns.forEach(col => totals[col.key] = 0);
+        let totPopModal = 0;
 
         let tbodyHtml = '';
         currentModalVillages.forEach((v, idx) => {
             const vNo = v.village_no || (idx + 1);
             const vName = v.village_name || `หมู่ที่ ${vNo}`;
             const subName = v.subdistrict || '-';
+            const vTotal = parseInt(v.village_total || v.bedridden_total || 0, 10);
+            totPopModal += vTotal;
 
             tbodyHtml += `
                 <tr>
                     <td style="color: #64748b; font-size: 0.825rem;">${idx + 1}</td>
                     <td style="font-weight: 500;">${escapeHtml(subName)}</td>
                     <td style="font-weight: 600; color: #0f2c4c;">${escapeHtml(vName)}</td>
+                    <td style="font-weight: 700; color: #1e3a8a; background: #eff6ff; border-right: 2px solid #bfdbfe;">
+                        ${vTotal.toLocaleString()}
+                    </td>
             `;
 
             block.columns.forEach(col => {
@@ -864,6 +863,9 @@ document.addEventListener('DOMContentLoaded', function () {
             <tr style="background-color: #f8fafc; border-top: 2px solid #cbd5e1;">
                 <td colspan="3" style="text-align: right; font-weight: 700; color: #0f2c4c; padding-right: 1.25rem;">
                     รวมทั้งหน่วยงาน (${currentModalVillages.length} หมู่บ้าน):
+                </td>
+                <td style="font-weight: 700; font-size: 0.95rem; color: #1e3a8a; background: #dbeafe; border-right: 2px solid #93c5fd;">
+                    ${totPopModal.toLocaleString()}
                 </td>
         `;
         block.columns.forEach(col => {
@@ -925,8 +927,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <div><strong>ผู้รายงาน:</strong> ${escapeHtml(r.user_name || 'เจ้าหน้าที่')}</div>
                                 <div><strong>บันทึกล่าสุด (NOW):</strong> <code style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">${r.updated_at || r.created_at || '-'}</code></div>
                             </div>
-                            ${r.impact_details ? `<div style="margin-top: 0.65rem; color: #991b1b; font-size: 0.85rem; background: #fef2f2; padding: 0.5rem 0.75rem; border-radius: 4px; border-left: 3px solid #ef4444;"><strong>ผลกระทบต่อสถานบริการ:</strong> ${escapeHtml(r.impact_details)}</div>` : ''}
-                            ${r.substitute_location ? `<div style="margin-top: 0.35rem; color: #0f2c4c; font-size: 0.85rem; background: #eff6ff; padding: 0.5rem 0.75rem; border-radius: 4px; border-left: 3px solid #3b82f6;"><strong>เปิดจุดบริการทดแทนที่:</strong> ${escapeHtml(r.substitute_location)}</div>` : ''}
+                            ${r.impact_details ? `<div style="margin-top: 0.65rem; color: #991b1b; font-size: 0.85rem; background: #fef2f2; padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid #fca5a5;"><strong>ผลกระทบต่อสถานบริการ:</strong> ${escapeHtml(r.impact_details)}</div>` : ''}
+                            ${r.substitute_location ? `<div style="margin-top: 0.35rem; color: #0f2c4c; font-size: 0.85rem; background: #eff6ff; padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid #93c5fd;"><strong>เปิดจุดบริการทดแทนที่:</strong> ${escapeHtml(r.substitute_location)}</div>` : ''}
                         </div>
 
                         <!-- Inner Tabs for Modal -->

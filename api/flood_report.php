@@ -305,11 +305,14 @@ switch ($action) {
         }
 
         // Get organization info
-        $stmtOrg = $pdo->prepare("SELECT o.id, o.name_th, d.name_th as district_name FROM organizations o JOIN districts d ON o.district_id = d.id WHERE o.id = ?");
+        $stmtOrg = $pdo->prepare("SELECT o.id, o.code, o.name_th, o.subdistrict, d.name_th as district_name FROM organizations o JOIN districts d ON o.district_id = d.id WHERE o.id = ?");
         $stmtOrg->execute([$orgId]);
         $orgInfo = $stmtOrg->fetch();
 
         $subDefaults = get_subdistrict_defaults($orgInfo ? $orgInfo['name_th'] : '');
+        if (!empty($orgInfo['subdistrict'])) {
+            $subDefaults['subdistrict'] = $orgInfo['subdistrict'];
+        }
 
         $stmt = $pdo->prepare("SELECT * FROM flood_reports WHERE organization_id = ? AND report_date = ?");
         $stmt->execute([$orgId, $reportDate]);
@@ -322,19 +325,38 @@ switch ($action) {
             $villages = $stmtV->fetchAll();
         }
 
-        // If no villages saved yet, generate default village rows
+        // If no villages saved yet, load official villages from master `villages` table
         if (empty($villages)) {
             $villages = [];
-            for ($i = 1; $i <= $subDefaults['count']; $i++) {
-                $row = [
-                    'subdistrict' => $subDefaults['subdistrict'],
-                    'village_no' => $i,
-                    'village_name' => "หมู่ที่ {$i}"
-                ];
-                foreach ($vulnerableFields as $vf) {
-                    $row[$vf] = 0;
+            $stmtMaster = $pdo->prepare("SELECT village_no, village_name, subdistrict FROM villages WHERE organization_id = ? ORDER BY village_no ASC");
+            $stmtMaster->execute([$orgId]);
+            $masterVillages = $stmtMaster->fetchAll();
+
+            if (!empty($masterVillages)) {
+                $subDefaults['subdistrict'] = $masterVillages[0]['subdistrict'];
+                foreach ($masterVillages as $mv) {
+                    $row = [
+                        'subdistrict' => $mv['subdistrict'],
+                        'village_no' => intval($mv['village_no']),
+                        'village_name' => $mv['village_name']
+                    ];
+                    foreach ($vulnerableFields as $vf) {
+                        $row[$vf] = 0;
+                    }
+                    $villages[] = $row;
                 }
-                $villages[] = $row;
+            } else {
+                for ($i = 1; $i <= $subDefaults['count']; $i++) {
+                    $row = [
+                        'subdistrict' => $subDefaults['subdistrict'],
+                        'village_no' => $i,
+                        'village_name' => "หมู่ที่ {$i}"
+                    ];
+                    foreach ($vulnerableFields as $vf) {
+                        $row[$vf] = 0;
+                    }
+                    $villages[] = $row;
+                }
             }
         }
 

@@ -1,5 +1,5 @@
 <?php
-// includes/header.php - Top Bar & Official Government Navigation
+// includes/header.php - Modern SaaS Layout with Collapsible Left Sidebar (Linear/Vercel Style)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -7,105 +7,265 @@ $isLoggedIn = !empty($_SESSION['user_id']);
 $userRole = $_SESSION['role'] ?? 'user';
 $userFullname = $_SESSION['fullname'] ?? '';
 $userDistrict = $_SESSION['district_name'] ?? '';
+$userOrg = $_SESSION['organization_name'] ?? '';
 $pageTitle = $pageTitle ?? 'ระบบบริหารจัดการข้อมูลและผู้ปฏิบัติงานระดับจังหวัด';
+$currentScript = basename($_SERVER['PHP_SELF'] ?? '');
 ?>
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title><?= htmlspecialchars($pageTitle) ?></title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d97706'><circle cx='12' cy='12' r='10'/><path fill='%23ffffff' d='M12 2L15 9H21L16 13L18 20L12 16L6 20L8 13L3 9H9L12 2Z'/></svg>">
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <link rel="icon" type="image/png" href="logo.png">
+    <script>
+        // Init theme immediately to prevent flashing
+        (function() {
+            const savedTheme = localStorage.getItem('water_theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหาหลัก</a>
 
-<header class="gov-topbar">
-    <div class="gov-topbar-inner">
-        <a href="<?= $isLoggedIn ? ($userRole === 'superadmin' ? 'admin.php' : 'dashboard.php') : 'index.php' ?>" class="brand-wrapper">
-            <div class="brand-emblem" title="ตราสัญลักษณ์ระบบงานบริหารส่วนภูมิภาค">
-                <svg viewBox="0 0 24 24">
-                    <!-- Stylized Garuda / Royal Provincial Crest Symbol -->
-                    <path d="M12 2L14.5 7.5L20 8.5L16 12.5L17 18L12 15L7 18L8 12.5L4 8.5L9.5 7.5L12 2Z"/>
-                    <circle cx="12" cy="12" r="2.5" fill="#0f2942"/>
-                </svg>
-            </div>
-            <div class="brand-info">
-                <span class="brand-title">ระบบบริหารจัดการข้อมูลและสถานการณ์อุทกภัยระดับจังหวัด</span>
-                <span class="brand-subtitle">จังหวัดอ่างทอง • สำนักงานจังหวัดและหน่วยงานสาธารณสุขในพื้นที่</span>
-            </div>
-        </a>
+<?php if ($isLoggedIn): ?>
+<div class="app-layout" id="app_layout">
+    <!-- Backdrop for mobile drawer -->
+    <div class="sidebar-backdrop" id="sidebar_backdrop"></div>
 
-        <nav class="topbar-nav">
-            <?php if ($isLoggedIn): ?>
-                <?php if ($userRole === 'superadmin'): ?>
-                    <a href="admin.php" class="btn btn-sm" style="background: rgba(217, 119, 6, 0.25); color: #fef3c7; border: 1px solid rgba(245, 158, 11, 0.5);" title="จัดการผู้ใช้งาน">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h6l-5 4 2 7-6-4-6 4 2-7-5-4h6z"></path></svg>
-                        <span>จัดการผู้ใช้</span>
-                    </a>
-                <?php endif; ?>
+    <!-- Left Collapsible Sidebar -->
+    <aside class="app-sidebar" id="app_sidebar">
+        <!-- Sidebar Brand -->
+        <div class="sidebar-header">
+            <a href="<?= $userRole === 'superadmin' ? 'admin.php' : 'dashboard.php' ?>" class="sidebar-brand">
+                <div class="sidebar-brand-avatar">
+                    <img src="logo.png" alt="ตรากระทรวงสาธารณสุข" class="brand-logo-img">
+                </div>
+                <div>
+                    <div class="sidebar-brand-title">ระบบข้อมูลอุทกภัย</div>
+                    <div class="sidebar-brand-sub">สสจ.อ่างทอง 7 อำเภอ</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Sidebar Navigation Groups -->
+        <nav class="sidebar-nav">
+            <!-- Group 1: Overview -->
+            <div class="nav-group">
+                <div class="nav-group-title">ภาพรวม & สรุปสถานการณ์</div>
+                <a href="dashboard.php" class="nav-link <?= $currentScript === 'dashboard.php' ? 'active' : '' ?>">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>แดชบอร์ดหลัก</span>
+                </a>
 
                 <?php if (in_array($userRole, ['admin', 'superadmin'])): ?>
-                    <a href="provincial_overview.php" class="btn btn-sm" style="background: rgba(2, 132, 199, 0.25); color: #bae6fd; border: 1px solid rgba(56, 189, 248, 0.5);" title="ภาพรวมจังหวัด">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-                        <span>ภาพรวมจังหวัด</span>
+                    <a href="provincial_overview.php" class="nav-link <?= $currentScript === 'provincial_overview.php' ? 'active' : '' ?>">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span>ภาพรวมทั้งจังหวัด</span>
                     </a>
                 <?php endif; ?>
 
-                <a href="report_entry.php" class="btn btn-sm" style="color: #ffffff; background: rgba(16, 185, 129, 0.25); border: 1px solid rgba(16, 185, 129, 0.5);" title="บันทึกข้อ 1-2 ผลกระทบและกลุ่มเปราะบาง">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                    <span>ข้อ 1-2 รายงานอุทกภัย</span>
+                <a href="onepage.php" class="nav-link <?= $currentScript === 'onepage.php' ? 'active' : '' ?>" target="_blank">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                    <span>OnePage สรุปผู้บริหาร</span>
+                </a>
+            </div>
+
+            <!-- Group 2: Data Entry & Medical Reports -->
+            <div class="nav-group">
+                <div class="nav-group-title">บันทึกรายงานสถานการณ์</div>
+                <a href="report_entry.php" class="nav-link <?= $currentScript === 'report_entry.php' ? 'active' : '' ?>">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <span>แบบรายงานประจำวัน (ข้อ 1 - 3)</span>
                 </a>
 
-                <a href="medical_services.php" class="btn btn-sm" style="color: #ffffff; background: rgba(14, 165, 233, 0.25); border: 1px solid rgba(56, 189, 248, 0.5);" title="บันทึกข้อ 3 บริการแพทย์และสาธารณสุข">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-                    <span>ข้อ 3 บริการแพทย์</span>
+                <a href="medical_services.php" class="nav-link <?= $currentScript === 'medical_services.php' ? 'active' : '' ?>">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                    <span>สมุดออกหน่วยแพทย์ (แบบละเอียด)</span>
                 </a>
+            </div>
 
-                <a href="onepage.php" class="btn btn-sm" style="color: #ffffff; background: rgba(245, 158, 11, 0.25); border: 1px solid rgba(245, 158, 11, 0.5);" title="OnePage สรุปสถานการณ์อุทกภัย">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                    <span>OnePage</span>
+            <!-- Group 3: System Administration -->
+            <div class="nav-group">
+                <div class="nav-group-title">ระบบและการจัดการ</div>
+                <?php if ($userRole === 'superadmin'): ?>
+                    <a href="admin.php" class="nav-link <?= $currentScript === 'admin.php' ? 'active' : '' ?>">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <span>จัดการผู้ใช้ & อนุมัติ</span>
+                    </a>
+                <?php endif; ?>
+
+                <a href="profile.php" class="nav-link <?= $currentScript === 'profile.php' ? 'active' : '' ?>">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>โปรไฟล์ของฉัน</span>
                 </a>
+            </div>
+        </nav>
 
-                <a href="dashboard.php" class="btn btn-sm btn-outline" style="color: #ffffff; background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2);">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    <span>แดชบอร์ด</span>
-                </a>
+        <!-- Sidebar Footer / Quick User Profile -->
+        <div class="sidebar-footer">
+            <a href="profile.php" class="sidebar-user" title="ดูโปรไฟล์">
+                <div class="user-avatar" style="background: <?= $userRole === 'superadmin' ? '#2563eb' : ($userRole === 'admin' ? '#0284c7' : '#059669') ?>;">
+                    <?= mb_substr($userFullname, 0, 1, 'UTF-8') ?>
+                </div>
+                <div class="user-meta">
+                    <div class="user-name"><?= htmlspecialchars($userFullname) ?></div>
+                    <div class="user-role"><?= $userRole === 'superadmin' ? 'Super Admin' : ($userRole === 'admin' ? 'Admin จังหวัด' : htmlspecialchars($userDistrict)) ?></div>
+                </div>
+            </a>
+            <a href="api/auth.php?action=logout" class="btn btn-icon btn-sm btn-ghost" title="ออกจากระบบ" style="color: var(--color-danger-text);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+            </a>
+        </div>
+    </aside>
 
-                <div class="user-badge-nav">
-                    <div class="user-avatar-circle" style="background: <?= $userRole === 'superadmin' ? '#d97706' : ($userRole === 'admin' ? '#0284c7' : '#059669') ?>;">
-                        <?= mb_substr($userFullname, 0, 1, 'UTF-8') ?>
-                    </div>
-                    <div style="display: flex; flex-direction: column; line-height: 1.2;">
-                        <span style="font-weight: 600;"><?= htmlspecialchars($userFullname) ?></span>
-                        <span style="font-size: 0.75rem; opacity: 0.85;">
-                            <?= $userRole === 'superadmin' ? 'Super Admin' : ($userRole === 'admin' ? 'Admin จังหวัด' : htmlspecialchars($userDistrict)) ?>
-                        </span>
+    <!-- Main Content Shell -->
+    <div class="app-main-wrapper">
+        <!-- Modern SaaS Topbar -->
+        <header class="app-topbar">
+            <div class="topbar-left">
+                <button type="button" class="mobile-menu-btn" id="mobile_menu_btn" title="เปิดเมนู">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <div style="font-size: 0.85rem; color: var(--color-text-muted); display: flex; align-items: center; gap: 0.4rem;">
+                    <span>จังหวัดอ่างทอง</span>
+                    <span>&bull;</span>
+                    <span style="font-weight: 500; color: var(--color-text);"><?= htmlspecialchars($userOrg ?: 'สำนักงานสาธารณสุขจังหวัด') ?></span>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <!-- Theme Switcher -->
+                <button type="button" class="theme-toggle-btn" id="global_theme_toggle" title="สลับธีม สว่าง / มืด">
+                    <svg id="global_icon_sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg id="global_icon_moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                <!-- Avatar Dropdown Menu -->
+                <div class="user-dropdown" id="user_dropdown_wrap">
+                    <button type="button" class="btn btn-ghost" id="user_dropdown_btn" style="padding: 0.25rem 0.5rem; gap: 0.65rem;">
+                        <div class="user-avatar" style="width: 30px; height: 30px; font-size: 0.8rem; background: var(--color-primary);">
+                            <?= mb_substr($userFullname, 0, 1, 'UTF-8') ?>
+                        </div>
+                        <div style="text-align: left; line-height: 1.2; display: none; @media(min-width: 640px){display: block;}">
+                            <div style="font-size: 0.825rem; font-weight: 600; color: var(--color-text);"><?= htmlspecialchars($userFullname) ?></div>
+                            <div style="font-size: 0.7rem; color: var(--color-text-muted);"><?= $userRole === 'superadmin' ? 'Super Admin' : 'เจ้าหน้าที่' ?></div>
+                        </div>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+
+                    <div class="user-dropdown-menu" id="user_dropdown_menu">
+                        <div style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--color-border); margin-bottom: 0.25rem;">
+                            <div style="font-size: 0.825rem; font-weight: 600;"><?= htmlspecialchars($userFullname) ?></div>
+                            <div style="font-size: 0.725rem; color: var(--color-text-muted);"><?= htmlspecialchars($userOrg) ?></div>
+                        </div>
+                        <a href="profile.php" class="dropdown-item">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <span>ข้อมูลส่วนตัว (Profile)</span>
+                        </a>
+                        <?php if ($userRole === 'superadmin'): ?>
+                            <a href="admin.php" class="dropdown-item">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h6l-5 4 2 7-6-4-6 4 2-7-5-4h6z"></path></svg>
+                                <span>จัดการผู้ใช้งานระบบ</span>
+                            </a>
+                        <?php endif; ?>
+                        <div class="dropdown-divider"></div>
+                        <a href="api/auth.php?action=logout" class="dropdown-item danger">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                            <span>ออกจากระบบ</span>
+                        </a>
                     </div>
                 </div>
+            </div>
+        </header>
 
-                <a href="profile.php" class="btn btn-sm" style="color: #ffffff; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18);" title="โปรไฟล์ของฉัน">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <!-- Main Body -->
+        <main class="app-content" id="main-content" tabindex="-1">
+<?php else: ?>
+    <!-- Public Header for non-logged-in views (e.g. register) -->
+    <header class="app-topbar" style="border-bottom: 1.5px solid var(--color-border); background-color: var(--color-surface); height: 74px;">
+        <div style="max-width: 1280px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1.25rem;">
+            <a href="index.php" style="display: flex; align-items: center; gap: 0.95rem; text-decoration: none; color: var(--color-text);">
+                <img src="logo.png" alt="ตรากระทรวงสาธารณสุข" class="brand-logo-img" style="width: 50px; height: 50px;">
+                <div>
+                    <div style="font-family: var(--font-heading); font-weight: 700; font-size: 1.15rem; color: var(--color-text); line-height: 1.25;">
+                        ระบบบริหารจัดการข้อมูลและสถานการณ์อุทกภัย
+                    </div>
+                    <div style="font-size: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                        สำนักงานสาธารณสุขจังหวัดอ่างทอง
+                    </div>
+                </div>
+            </a>
+            <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <a href="onepage.php" class="btn btn-sm btn-outline">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                    <span>OnePage สรุปสถานการณ์</span>
                 </a>
-
-                <a href="api/auth.php?action=logout" class="btn btn-sm btn-danger" title="ออกจากระบบ">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                    <span>ออก</span>
-                </a>
-            <?php else: ?>
-                <a href="onepage.php" class="btn btn-sm" style="color: #ffffff; background: rgba(245, 158, 11, 0.25); border: 1px solid rgba(245, 158, 11, 0.5);">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                    <span>OnePage สถานการณ์อุทกภัย</span>
-                </a>
-                <a href="index.php" class="btn btn-sm" style="color: #ffffff; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
-                    <span>เข้าสู่ระบบ</span>
-                </a>
-                <a href="register.php" class="btn btn-sm btn-success">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
-                    <span>ลงทะเบียนใช้งาน</span>
-                </a>
-            <?php endif; ?>
-        </nav>
-    </div>
-</header>
+                <a href="index.php" class="btn btn-sm btn-primary">เข้าสู่ระบบ</a>
+            </div>
+        </div>
+    </header>
+    <main id="main-content" style="padding: 2.5rem 1rem;" tabindex="-1">
+<?php endif; ?>

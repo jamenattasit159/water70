@@ -11,7 +11,7 @@ if ($district_id <= 0) {
 }
 
 try {
-    $stmt = $pdo->prepare("SELECT id, name_th, type FROM organizations WHERE district_id = ? ORDER BY type DESC, name_th ASC");
+    $stmt = $pdo->prepare("SELECT id, code, name_th, subdistrict, type FROM organizations WHERE district_id = ? ORDER BY type DESC, name_th ASC");
     $stmt->execute([$district_id]);
     $organizations = $stmt->fetchAll();
 

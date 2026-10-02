@@ -37,13 +37,36 @@ try {
 
         CREATE TABLE IF NOT EXISTS `organizations` (
             `id` INT AUTO_INCREMENT PRIMARY KEY,
+            `code` VARCHAR(20) DEFAULT NULL,
             `district_id` INT NOT NULL,
             `name_th` VARCHAR(255) NOT NULL,
+            `subdistrict` VARCHAR(100) DEFAULT NULL,
             `type` VARCHAR(50) NOT NULL DEFAULT 'health_center',
             `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
             INDEX `idx_district` (`district_id`),
+            INDEX `idx_code` (`code`),
             INDEX `idx_type` (`type`),
             CONSTRAINT `fk_org_district` FOREIGN KEY (`district_id`) REFERENCES `districts` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+        CREATE TABLE IF NOT EXISTS `villages` (
+            `id` INT AUTO_INCREMENT PRIMARY KEY,
+            `organization_id` INT NOT NULL,
+            `hospcode` VARCHAR(20) NOT NULL,
+            `moo_code` VARCHAR(20) NOT NULL,
+            `village_no` INT NOT NULL,
+            `village_name` VARCHAR(150) NOT NULL,
+            `subdistrict` VARCHAR(100) NOT NULL,
+            `district_id` INT NOT NULL,
+            `district_name` VARCHAR(100) NOT NULL,
+            `province_name` VARCHAR(100) NOT NULL DEFAULT 'อ่างทอง',
+            `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+            INDEX `idx_org` (`organization_id`),
+            INDEX `idx_hospcode` (`hospcode`),
+            INDEX `idx_district` (`district_id`),
+            INDEX `idx_subdistrict` (`subdistrict`),
+            UNIQUE KEY `uq_org_moo` (`organization_id`, `moo_code`),
+            CONSTRAINT `fk_villages_org` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
         CREATE TABLE IF NOT EXISTS `users` (

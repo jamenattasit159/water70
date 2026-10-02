@@ -31,15 +31,15 @@ require_once __DIR__ . '/includes/header.php';
     <!-- Breadcrumb & Top bar -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
         <div>
-            <div style="font-size: 0.85rem; color: var(--slate-500); margin-bottom: 2px;">
-                <a href="dashboard.php" style="color: var(--blue-600); text-decoration: none;">หน้าหลัก</a> &gt;
+            <div style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.35rem; font-weight: 500;">
+                <a href="dashboard.php" style="color: var(--color-primary); text-decoration: none;">หน้าหลัก</a> &gt;
                 <span>3. การให้บริการด้านการแพทย์และสาธารณสุข</span>
             </div>
-            <h1 class="page-title" style="margin: 0; font-size: 1.45rem; color: var(--navy-900); display: flex; align-items: center; gap: 0.5rem;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #0284c7;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            <h1 class="page-title" style="margin: 0; font-size: 1.95rem; font-weight: 700; color: var(--color-text); display: flex; align-items: center; gap: 0.65rem;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--color-primary);"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
                 <span>3. การให้บริการด้านการแพทย์และสาธารณสุข (การออกหน่วยและบริการในพื้นที่)</span>
             </h1>
-            <p style="font-size: 0.9rem; color: var(--slate-600); margin: 0.2rem 0 0 0;">
+            <p style="font-size: 1.05rem; color: var(--color-text-secondary); margin: 0.35rem 0 0 0;">
                 บันทึกการออกหน่วยแพทย์เคลื่อนที่, MCATT, การเยี่ยมบ้าน, การคัดกรองสุขภาพจิต, โรคที่พบบ่อย และการแจกจ่ายเวชภัณฑ์
             </p>
         </div>
@@ -48,9 +48,9 @@ require_once __DIR__ . '/includes/header.php';
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
                 <span>รายงานกลุ่มเปราะบาง (ส่วน 1-2)</span>
             </a>
-            <a href="onepage.php?report_date=<?= urlencode($selectedDate) ?>" class="btn btn-sm" style="background: linear-gradient(135deg, #0f2c4c 0%, #1e3a8a 100%); color: #ffffff; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: var(--shadow-sm);">
+            <a href="onepage.php?report_date=<?= urlencode($selectedDate) ?>" class="btn btn-sm btn-outline" target="_blank" style="display: inline-flex; align-items: center; gap: 0.4rem;">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                <span>ดู OnePage สถานการณ์อุทกภัย</span>
+                <span>ดู OnePage สถานการณ์</span>
             </a>
         </div>
     </div>
@@ -159,9 +159,9 @@ require_once __DIR__ . '/includes/header.php';
                         <th rowspan="2" class="col-header-blue" style="width: 12%;">สถานที่ออกหน่วย</th>
                         <th rowspan="2" class="col-header-blue" style="width: 10%;">หมู่ / ชุมชน</th>
                         <th rowspan="2" style="background: #dbeafe; color: #1e3a8a; font-weight: 700; width: 8%;">ปชช. รับบริการ<br>(คน)</th>
-                        <th colspan="3" style="background: #fef08a; color: #854d0e; font-weight: 700;">ทีมปฏิบัติการ (ครั้ง)</th>
-                        <th colspan="4" style="background: #d1fae5; color: #065f46; font-weight: 700;">การให้บริการด้านการแพทย์ (ราย)</th>
-                        <th colspan="2" style="background: #fed7aa; color: #7c2d12; font-weight: 700;">สุขภาพจิต (ราย)</th>
+                        <th colspan="4" style="background: #fef08a; color: #854d0e; font-weight: 700;">ทีมปฏิบัติการ (ครั้ง)</th>
+                        <th colspan="6" style="background: #d1fae5; color: #065f46; font-weight: 700;">การให้บริการด้านการแพทย์ (ราย)</th>
+                        <th colspan="3" style="background: #fed7aa; color: #7c2d12; font-weight: 700;">สุขภาพจิต (ราย)</th>
                         <th colspan="2" style="background: #fce7f3; color: #831843; font-weight: 700;">โรคพบบ่อย (ราย)</th>
                         <th colspan="2" style="background: #e2e8f0; color: #334155; font-weight: 700;">ทรัพยากรแจก</th>
                         <th rowspan="2" style="width: 8%;">เวลาบันทึก<br>(NOW)</th>
@@ -171,14 +171,18 @@ require_once __DIR__ . '/includes/header.php';
                         <th style="background: #fef9c3; color: #854d0e; font-size: 0.75rem;">แพทย์เคลื่อนที่</th>
                         <th style="background: #fef9c3; color: #854d0e; font-size: 0.75rem;">MCATT</th>
                         <th style="background: #fef9c3; color: #854d0e; font-size: 0.75rem;">SRRT</th>
+                        <th style="background: #fef9c3; color: #854d0e; font-size: 0.75rem;">ShERT</th>
 
                         <th style="background: #ecfdf5; color: #065f46; font-size: 0.75rem;">ส่งยา</th>
                         <th style="background: #ecfdf5; color: #065f46; font-size: 0.75rem;">เยี่ยมบ้าน</th>
                         <th style="background: #ecfdf5; color: #065f46; font-size: 0.75rem;">แจกยา</th>
                         <th style="background: #ecfdf5; color: #065f46; font-size: 0.75rem;">สุขศึกษา</th>
+                        <th style="background: #ecfdf5; color: #065f46; font-size: 0.75rem;">ตรวจรักษา</th>
+                        <th style="background: #ecfdf5; color: #065f46; font-size: 0.75rem;">ส่งต่อ</th>
 
                         <th style="background: #ffedd5; color: #7c2d12; font-size: 0.75rem;">คัดกรอง</th>
                         <th style="background: #ffedd5; color: #7c2d12; font-size: 0.75rem;">PFA</th>
+                        <th style="background: #ffedd5; color: #7c2d12; font-size: 0.75rem;">พบแพทย์</th>
 
                         <th style="background: #fdf2f8; color: #831843; font-size: 0.75rem;">น้ำกัดเท้า</th>
                         <th style="background: #fdf2f8; color: #831843; font-size: 0.75rem;">ผิวหนัง</th>
@@ -188,7 +192,7 @@ require_once __DIR__ . '/includes/header.php';
                     </tr>
                 </thead>
                 <tbody id="services_tbody">
-                    <tr><td colspan="19" style="padding: 2.5rem; color: #64748b;">กำลังโหลดข้อมูล...</td></tr>
+                    <tr><td colspan="24" style="padding: 2.5rem; color: #64748b;">กำลังโหลดข้อมูล...</td></tr>
                 </tbody>
                 <tfoot id="services_tfoot" style="position: sticky; bottom: 0; z-index: 4; background: #f8fafc; font-weight: 700; border-top: 2px solid #cbd5e1;">
                     <!-- Sum totals -->
@@ -203,12 +207,12 @@ require_once __DIR__ . '/includes/header.php';
      ========================================== -->
 <div class="modal-overlay" id="medical_form_modal">
     <div class="modal-dialog" style="max-width: 1000px; width: 95vw; max-height: 92vh;">
-        <div class="modal-header" style="background: linear-gradient(135deg, #0f2c4c 0%, #1e3a8a 100%); color: #ffffff;">
-            <h3 class="modal-title" id="modal_form_title" style="color: #ffffff; font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem;">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal_form_title" style="font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem; color: var(--color-text);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
                 <span>แบบบันทึก 3. การให้บริการด้านการแพทย์และสาธารณสุข</span>
             </h3>
-            <button type="button" class="modal-close" style="color: #ffffff; opacity: 0.85;">&times;</button>
+            <button type="button" class="modal-close">&times;</button>
         </div>
 
         <form id="form_medical_service">
@@ -312,6 +316,10 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="form-group" style="margin: 0;">
                                 <label class="form-label" for="service_referral" style="font-size: 0.8rem;">การส่งต่อผู้ป่วย</label>
                                 <input type="number" min="0" id="service_referral" name="service_referral" class="form-control form-control-sm" value="0">
+                            </div>
+                            <div class="form-group" style="margin: 0;">
+                                <label class="form-label" for="service_other" style="font-size: 0.8rem;">บริการอื่นๆ (ราย)</label>
+                                <input type="number" min="0" id="service_other" name="service_other" class="form-control form-control-sm" value="0">
                             </div>
                         </div>
                     </div>
@@ -450,20 +458,40 @@ require_once __DIR__ . '/includes/header.php';
                                 <input type="number" min="0" id="resource_relief_kit" name="resource_relief_kit" class="form-control form-control-sm" value="0">
                             </div>
                             <div class="form-group" style="margin: 0;">
-                                <label class="form-label" for="resource_garbage_bag" style="font-size: 0.8rem;">ถุงดำ (ใบ)</label>
-                                <input type="number" min="0" id="resource_garbage_bag" name="resource_garbage_bag" class="form-control form-control-sm" value="0">
+                                <label class="form-label" for="resource_home_medicine" style="font-size: 0.8rem;">ยาสามัญประจำบ้าน</label>
+                                <input type="number" min="0" id="resource_home_medicine" name="resource_home_medicine" class="form-control form-control-sm" value="0">
+                            </div>
+                            <div class="form-group" style="margin: 0;">
+                                <label class="form-label" for="resource_antifungal" style="font-size: 0.8rem;">ยาทากลากเกลื้อน (ชุด)</label>
+                                <input type="number" min="0" id="resource_antifungal" name="resource_antifungal" class="form-control form-control-sm" value="0">
+                            </div>
+                            <div class="form-group" style="margin: 0;">
+                                <label class="form-label" for="resource_boots" style="font-size: 0.8rem;">รองเท้าบูท (คู่)</label>
+                                <input type="number" min="0" id="resource_boots" name="resource_boots" class="form-control form-control-sm" value="0">
                             </div>
                             <div class="form-group" style="margin: 0;">
                                 <label class="form-label" for="resource_mosquito_repellent" style="font-size: 0.8rem;">ยากันยุง (ซอง/กล่อง)</label>
                                 <input type="number" min="0" id="resource_mosquito_repellent" name="resource_mosquito_repellent" class="form-control form-control-sm" value="0">
                             </div>
                             <div class="form-group" style="margin: 0;">
-                                <label class="form-label" for="resource_home_medicine" style="font-size: 0.8rem;">ยาสามัญประจำบ้าน</label>
-                                <input type="number" min="0" id="resource_home_medicine" name="resource_home_medicine" class="form-control form-control-sm" value="0">
+                                <label class="form-label" for="resource_garbage_bag" style="font-size: 0.8rem;">ถุงดำ (ใบ)</label>
+                                <input type="number" min="0" id="resource_garbage_bag" name="resource_garbage_bag" class="form-control form-control-sm" value="0">
                             </div>
                             <div class="form-group" style="margin: 0;">
-                                <label class="form-label" for="resource_boots" style="font-size: 0.8rem;">รองเท้าบูท (คู่)</label>
-                                <input type="number" min="0" id="resource_boots" name="resource_boots" class="form-control form-control-sm" value="0">
+                                <label class="form-label" for="resource_alum" style="font-size: 0.8rem;">สารส้ม (กก./ก้อน)</label>
+                                <input type="number" min="0" id="resource_alum" name="resource_alum" class="form-control form-control-sm" value="0">
+                            </div>
+                            <div class="form-group" style="margin: 0;">
+                                <label class="form-label" for="resource_chlorine" style="font-size: 0.8rem;">คลอรีน (ขวด/ซอง)</label>
+                                <input type="number" min="0" id="resource_chlorine" name="resource_chlorine" class="form-control form-control-sm" value="0">
+                            </div>
+                            <div class="form-group" style="margin: 0;">
+                                <label class="form-label" for="resource_em" style="font-size: 0.8rem;">EM (ขวด)</label>
+                                <input type="number" min="0" id="resource_em" name="resource_em" class="form-control form-control-sm" value="0">
+                            </div>
+                            <div class="form-group" style="margin: 0;">
+                                <label class="form-label" for="resource_other" style="font-size: 0.8rem;">เวชภัณฑ์อื่นๆ</label>
+                                <input type="number" min="0" id="resource_other" name="resource_other" class="form-control form-control-sm" value="0">
                             </div>
                         </div>
 
@@ -534,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const orgId = filterOrg ? filterOrg.value : '';
         tableDateDisplay.textContent = dateStr;
 
-        tbody.innerHTML = '<tr><td colspan="19" style="padding: 2.5rem; color: #64748b;">กำลังโหลดข้อมูล...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="24" style="padding: 2.5rem; color: #64748b;">กำลังโหลดข้อมูล...</td></tr>';
 
         fetch(`api/medical_services.php?action=list_services&report_date=${dateStr}&organization_id=${orgId}`)
             .then(r => r.json())
@@ -544,11 +572,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     renderTable(currentServicesList);
                     loadKPIs(dateStr, orgId);
                 } else {
-                    tbody.innerHTML = `<tr><td colspan="19" style="padding: 2.5rem; color: #dc2626;">เกิดข้อผิดพลาด: ${escapeHtml(res.message)}</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="24" style="padding: 2.5rem; color: #dc2626;">เกิดข้อผิดพลาด: ${escapeHtml(res.message)}</td></tr>`;
                 }
             })
             .catch(err => {
-                tbody.innerHTML = `<tr><td colspan="19" style="padding: 2.5rem; color: #dc2626;">เกิดข้อผิดพลาด: ${escapeHtml(err.message)}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="24" style="padding: 2.5rem; color: #dc2626;">เกิดข้อผิดพลาด: ${escapeHtml(err.message)}</td></tr>`;
             });
     }
 
@@ -557,15 +585,15 @@ document.addEventListener('DOMContentLoaded', function () {
         badgeTotal.textContent = `${services.length} รายการ`;
 
         if (services.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="19" style="padding: 3rem; text-align: center; color: #94a3b8;">ยังไม่มีข้อมูลการออกหน่วยบริการสำหรับวันนี้ กดปุ่ม "+ บันทึกการออกหน่วย" เพื่อเพิ่มข้อมูล</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="24" style="padding: 3rem; text-align: center; color: #94a3b8;">ยังไม่มีข้อมูลการออกหน่วยบริการสำหรับวันนี้ กดปุ่ม "+ บันทึกการออกหน่วย" เพื่อเพิ่มข้อมูล</td></tr>';
             tfoot.innerHTML = '';
             return;
         }
 
         let html = '';
-        let totPeople = 0, totMobile = 0, totMcatt = 0, totSrrt = 0;
-        let totChronic = 0, totHome = 0, totDisp = 0, totEdu = 0;
-        let totScreen = 0, totPfa = 0, totFoot = 0, totSkin = 0;
+        let totPeople = 0, totMobile = 0, totMcatt = 0, totSrrt = 0, totShert = 0;
+        let totChronic = 0, totHome = 0, totDisp = 0, totEdu = 0, totTreat = 0, totRefer = 0;
+        let totScreen = 0, totPfa = 0, totDoctor = 0, totFoot = 0, totSkin = 0;
         let totCream = 0, totRelief = 0;
 
         services.forEach((s, idx) => {
@@ -573,12 +601,16 @@ document.addEventListener('DOMContentLoaded', function () {
             totMobile += parseInt(s.team_mobile_clinic || 0, 10);
             totMcatt += parseInt(s.team_mcatt || 0, 10);
             totSrrt += parseInt(s.team_srrt || 0, 10);
+            totShert += parseInt(s.team_shert || 0, 10);
             totChronic += parseInt(s.service_chronic_meds || 0, 10);
             totHome += parseInt(s.service_home_visit || 0, 10);
             totDisp += parseInt(s.service_med_dispense || 0, 10);
             totEdu += parseInt(s.service_health_edu || 0, 10);
+            totTreat += parseInt(s.service_treatment || 0, 10);
+            totRefer += parseInt(s.service_referral || 0, 10);
             totScreen += parseInt(s.mental_screened || 0, 10);
             totPfa += parseInt(s.mental_help_pfa || 0, 10);
+            totDoctor += parseInt(s.mental_help_doctor || 0, 10);
             totFoot += parseInt(s.disease_athletes_foot || 0, 10);
             totSkin += parseInt(s.disease_skin || 0, 10);
             totCream += parseInt(s.resource_foot_cream || 0, 10);
@@ -598,14 +630,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td>${s.team_mobile_clinic || 0}</td>
                     <td>${s.team_mcatt || 0}</td>
                     <td>${s.team_srrt || 0}</td>
+                    <td>${s.team_shert || 0}</td>
 
                     <td>${s.service_chronic_meds || 0}</td>
                     <td style="font-weight: 600; color: #059669;">${s.service_home_visit || 0}</td>
                     <td>${s.service_med_dispense || 0}</td>
                     <td>${s.service_health_edu || 0}</td>
+                    <td>${s.service_treatment || 0}</td>
+                    <td>${s.service_referral || 0}</td>
 
                     <td>${s.mental_screened || 0}</td>
                     <td>${s.mental_help_pfa || 0}</td>
+                    <td>${s.mental_help_doctor || 0}</td>
 
                     <td style="font-weight: 700; color: #dc2626;">${s.disease_athletes_foot || 0}</td>
                     <td>${s.disease_skin || 0}</td>
@@ -633,12 +669,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>${totMobile}</td>
                 <td>${totMcatt}</td>
                 <td>${totSrrt}</td>
+                <td>${totShert}</td>
                 <td>${totChronic}</td>
                 <td style="color: #059669; font-weight: 700;">${totHome}</td>
                 <td>${totDisp}</td>
                 <td>${totEdu}</td>
+                <td>${totTreat}</td>
+                <td>${totRefer}</td>
                 <td>${totScreen}</td>
                 <td>${totPfa}</td>
+                <td>${totDoctor}</td>
                 <td style="color: #dc2626; font-weight: 700;">${totFoot}</td>
                 <td>${totSkin}</td>
                 <td>${totCream}</td>

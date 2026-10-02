@@ -16,35 +16,36 @@ $pageTitle = 'ลงทะเบียนผู้ปฏิบัติงาน
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<div class="container auth-container" style="max-width: 680px;">
+<div class="container auth-container" style="max-width: 760px; margin: 0 auto;">
     <!-- Registration Alert -->
     <div id="register_alert" style="display: none;"></div>
 
     <!-- Registration Card -->
-    <div class="gov-card" id="register_card">
-        <div class="gov-card-header" style="background: linear-gradient(135deg, #0f2c4c 0%, #19436e 100%); color: #ffffff;">
-            <div>
-                <div style="color: #ffd778; font-size: 0.825rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">
-                    Civil Official Registration
-                </div>
-                <div style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700; color: #ffffff;">
-                    ลงทะเบียนขอรับสิทธิ์เข้าใช้งานระบบ
+    <div class="card" id="register_card">
+        <div class="card-header" style="padding: 1.5rem 1.75rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <img src="logo.png" alt="ตรากระทรวงสาธารณสุข" class="brand-logo-img" style="width: 58px; height: 58px;">
+                <div>
+                    <div style="color: var(--color-primary); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;">
+                        สสจ.อ่างทอง • สำนักงานสาธารณสุขจังหวัด
+                    </div>
+                    <h2 style="font-size: 1.55rem; font-weight: 700; color: var(--color-text); margin-top: 2px;">
+                        ลงทะเบียนขอรับสิทธิ์เข้าใช้งานระบบ
+                    </h2>
                 </div>
             </div>
-            <div style="background: rgba(255, 255, 255, 0.15); border-radius: var(--radius-md); padding: 0.45rem 0.75rem; font-size: 0.8rem; text-align: right;">
-                <span style="font-weight: 600;">จังหวัดอ่างทอง</span>
-            </div>
+            <span class="badge badge-info" style="font-size: 0.95rem;">7 อำเภอ</span>
         </div>
 
-        <div class="gov-card-body">
+        <div class="gov-card-body" style="padding: 1.75rem;">
             <!-- Official Workflow Notice -->
-            <div class="gov-alert warning" style="margin-bottom: 1.5rem;">
+            <div class="gov-alert warning" style="margin-bottom: 1.75rem;">
                 <div class="gov-alert-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                 </div>
-                <div style="font-size: 0.9rem;">
+                <div style="font-size: 1.05rem; line-height: 1.6;">
                     <strong>ข้อกำหนดการเข้าใช้งาน:</strong> เมื่อลงทะเบียนเสร็จสิ้น บัญชีของท่านจะอยู่ในสถานะ 
-                    <span class="badge badge-pending" style="vertical-align: middle;">รอการอนุมัติ</span> 
+                    <span class="badge badge-warning" style="vertical-align: middle;">รอการอนุมัติ</span> 
                     โดยต้องได้รับการยืนยันสิทธิ์จาก <strong>ผู้ดูแลระบบระดับสูง (Super Admin)</strong> ประจำจังหวัด ก่อนจึงจะสามารถเข้าสู่ระบบและปฏิบัติงานได้
                 </div>
             </div>
@@ -188,16 +189,19 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 
     <!-- Registration Success State (Shown after submission) -->
-    <div class="gov-card" id="register_success_card" style="display: none; text-align: center; padding: 2.5rem 1.5rem;">
-        <div style="width: 70px; height: 70px; background: var(--gold-50); border: 2px solid var(--gold-500); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto; color: var(--gold-600);">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+    <div class="card" id="register_success_card" style="display: none; text-align: center; padding: 2.5rem 1.5rem;">
+        <div style="width: 60px; height: 60px; background: var(--color-warning-bg); border: 1px solid var(--color-warning-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto; color: var(--color-warning-text);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
         </div>
         
-        <h2 style="font-size: 1.5rem; color: var(--navy-900); margin-bottom: 0.5rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.5rem;">
             ลงทะเบียนส่งคำขอเรียบร้อยแล้ว
         </h2>
         <div style="display: inline-block; margin-bottom: 1.25rem;">
-            <span class="badge badge-pending" style="font-size: 0.95rem; padding: 0.35rem 1rem;">สถานะ: รอการอนุมัติสิทธิ์จาก Super Admin</span>
+            <span class="badge badge-warning" style="font-size: 0.85rem; padding: 0.35rem 0.85rem;">
+                <span class="badge-dot"></span>
+                <span>สถานะ: รอการอนุมัติสิทธิ์จาก Super Admin</span>
+            </span>
         </div>
 
         <p style="color: var(--slate-600); max-width: 520px; margin: 0 auto 1.5rem auto; line-height: 1.6;">

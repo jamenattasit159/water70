@@ -99,9 +99,9 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="container" style="max-width: 800px;">
-    <div style="margin-bottom: 1.5rem;">
-        <h1 style="font-size: 1.65rem; color: var(--navy-900);">ข้อมูลส่วนตัวและการตั้งค่า</h1>
-        <div style="color: var(--slate-600);">จัดการข้อมูลผู้ปฏิบัติงาน สังกัดหน่วยงาน และเปลี่ยนรหัสผ่าน</div>
+    <div style="margin-bottom: 1.75rem;">
+        <h1 style="font-size: 2rem; font-weight: 700; color: var(--color-text); margin-bottom: 0.35rem;">ข้อมูลส่วนตัวและการตั้งค่า</h1>
+        <div style="color: var(--color-text-secondary); font-size: 1.05rem;">จัดการข้อมูลผู้ปฏิบัติงาน สังกัดหน่วยงาน และเปลี่ยนรหัสผ่าน</div>
     </div>
 
     <?php if (!empty($feedback)): ?>
@@ -132,8 +132,8 @@ require_once __DIR__ . '/includes/header.php';
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <!-- Username (read only) -->
                     <div class="form-group" style="grid-column: span 2;">
-                        <label class="form-label">ชื่อผู้ใช้งาน (Username)</label>
-                        <input type="text" class="form-control" value="<?= htmlspecialchars($user['username']) ?>" disabled style="background: #f1f5f9;">
+                        <label class="form-label" for="profile_username">ชื่อผู้ใช้งาน (Username)</label>
+                        <input type="text" id="profile_username" class="form-control" value="<?= htmlspecialchars($user['username']) ?>" disabled style="background: #f1f5f9;">
                     </div>
 
                     <!-- Fullname -->
@@ -230,7 +230,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
 
                 <div style="margin-top: 1.5rem; text-align: right;">
-                    <button type="submit" class="btn btn-outline" style="border-color: var(--navy-800); color: var(--navy-800);">
+                    <button type="submit" class="btn btn-primary">
                         <span>อัปเดตรหัสผ่านใหม่</span>
                     </button>
                 </div>

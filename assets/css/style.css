@@ -72,6 +72,11 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+:focus-visible {
+    outline: 3px solid var(--blue-500);
+    outline-offset: 3px;
+}
+
 h1, h2, h3, h4, h5, h6, .font-heading {
     font-family: var(--font-heading);
     font-weight: 600;
@@ -347,6 +352,7 @@ a:hover {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
     line-height: 1.4;
+    min-height: 44px;
 }
 
 .btn:active {
@@ -676,7 +682,10 @@ a:hover {
     border: none;
     color: var(--slate-400);
     cursor: pointer;
-    padding: 0.25rem;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    padding: 0;
     border-radius: var(--radius-sm);
     display: flex;
 }
@@ -777,4 +786,14 @@ a:hover {
         flex-direction: column;
         text-align: center;
     }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .badge-pending,
+    .gov-toast { animation: none !important; }
+    .gov-card,
+    .btn,
+    .modal-overlay,
+    .modal-dialog { transition: none !important; }
 }

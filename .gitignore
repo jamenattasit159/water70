@@ -4,8 +4,11 @@ Thumbs.db
 desktop.ini
 *.log
 *.tmp
+~$*
 
-# IDEs
+# IDEs & Tools
 .vscode/
 .idea/
+.agents/
+.codex/
 
