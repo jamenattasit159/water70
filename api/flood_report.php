@@ -486,16 +486,110 @@ switch ($action) {
                 $facParams[] = $districtFilter;
             }
             $facilitiesListSql .= " ORDER BY (r.id IS NOT NULL) DESC, (r.impact_status = 'affected') DESC, d.id ASC, o.id ASC";
-
             $stmtFac = $pdo->prepare($facilitiesListSql);
             $stmtFac->execute($facParams);
             $facilityRows = $stmtFac->fetchAll();
+
+            // Medical Outreach by District (matching Section 3 & Excel top right table)
+            $stmtOutreach = $pdo->prepare("
+                SELECT 
+                    d.id as district_id,
+                    d.name_th as district_name,
+                    COUNT(m.id) as outreach_records,
+                    COALESCE(SUM(m.team_mobile_clinic), 0) as mobile_clinics,
+                    COALESCE(SUM(m.team_mcatt), 0) as mcatt_teams,
+                    COALESCE(SUM(m.team_srrt), 0) as srrt_teams,
+                    COALESCE(SUM(m.team_shert), 0) as shert_teams,
+                    COALESCE(SUM(m.service_home_visit), 0) as home_visits,
+                    COALESCE(SUM(m.service_med_dispense), 0) as med_dispenses,
+                    COALESCE(SUM(m.service_health_edu), 0) as health_edus,
+                    COALESCE(SUM(m.service_treatment), 0) as treatments,
+                    COALESCE(SUM(m.mental_screened), 0) as mental_screened,
+                    COALESCE(SUM(m.service_referral), 0) as referrals,
+                    COALESCE(SUM(m.people_served), 0) as people_served
+                FROM districts d
+                LEFT JOIN flood_medical_services m ON m.district_id = d.id AND m.report_date = ?
+                GROUP BY d.id, d.name_th
+                ORDER BY d.id ASC
+            ");
+            $stmtOutreach->execute([$reportDate]);
+            $medicalOutreachDistricts = $stmtOutreach->fetchAll();
+
+            // Daily Trend (matching Excel rows 16-24 Time Series)
+            $trendSql = "
+                SELECT 
+                    r.report_date,
+                    COUNT(DISTINCT r.organization_id) as facilities_reported,
+                    SUM(r.bedridden_total) as bedridden_total,
+                    SUM(r.bedridden_flooded) as bedridden_flooded,
+                    SUM(r.bedridden_home) as bedridden_home,
+                    SUM(r.bedridden_shelter) as bedridden_shelter,
+                    SUM(r.bedridden_hospital) as bedridden_hospital,
+
+                    SUM(r.dialysis_total) as dialysis_total,
+                    SUM(r.dialysis_flooded) as dialysis_flooded,
+                    SUM(r.dialysis_home) as dialysis_home,
+                    SUM(r.dialysis_shelter) as dialysis_shelter,
+                    SUM(r.dialysis_missed) as dialysis_missed,
+
+                    SUM(r.psychiatric_total) as psychiatric_total,
+                    SUM(r.psychiatric_flooded) as psychiatric_flooded,
+                    SUM(r.psychiatric_home) as psychiatric_home,
+                    SUM(r.psychiatric_shelter) as psychiatric_shelter,
+                    SUM(r.psychiatric_health_issue) as psychiatric_health_issue,
+
+                    SUM(r.elderly_total) as elderly_total,
+                    SUM(r.elderly_flooded) as elderly_flooded,
+                    SUM(r.elderly_home) as elderly_home,
+                    SUM(r.elderly_shelter) as elderly_shelter,
+                    SUM(r.elderly_out_of_meds) as elderly_out_of_meds,
+
+                    SUM(r.disabled_total) as disabled_total,
+                    SUM(r.disabled_flooded) as disabled_flooded,
+                    SUM(r.disabled_home) as disabled_home,
+                    SUM(r.disabled_shelter) as disabled_shelter,
+                    SUM(r.disabled_health_issue) as disabled_health_issue,
+
+                    SUM(r.ncd_total) as ncd_total,
+                    SUM(r.ncd_flooded) as ncd_flooded,
+                    SUM(r.ncd_home) as ncd_home,
+                    SUM(r.ncd_shelter) as ncd_shelter,
+                    SUM(r.ncd_out_of_meds) as ncd_out_of_meds,
+
+                    SUM(r.pregnant_total) as pregnant_total,
+                    SUM(r.pregnant_flooded) as pregnant_flooded,
+                    SUM(r.pregnant_home) as pregnant_home,
+                    SUM(r.pregnant_shelter) as pregnant_shelter,
+                    SUM(r.pregnant_health_issue) as pregnant_health_issue,
+
+                    SUM(r.children_total) as children_total,
+                    SUM(r.children_flooded) as children_flooded,
+                    SUM(r.children_home) as children_home,
+                    SUM(r.children_shelter) as children_shelter,
+                    SUM(r.children_health_issue) as children_health_issue,
+
+                    SUM(r.people_served) as total_people_served,
+                    SUM(r.home_visits) as total_home_visits
+                FROM flood_reports r
+                WHERE 1=1
+            ";
+            $trendParams = [];
+            if ($districtFilter > 0) {
+                $trendSql .= " AND r.district_id = ?";
+                $trendParams[] = $districtFilter;
+            }
+            $trendSql .= " GROUP BY r.report_date ORDER BY r.report_date DESC LIMIT 14";
+            $stmtTrend = $pdo->prepare($trendSql);
+            $stmtTrend->execute($trendParams);
+            $dailyTrends = $stmtTrend->fetchAll();
 
             resp('success', 'สรุปภาพรวมจังหวัดสำเร็จ', [
                 'report_date' => $reportDate,
                 'total_facilities' => (int)$totalFacilities,
                 'summary' => $summary,
                 'districts_summary' => $districtsSummary,
+                'medical_outreach_districts' => $medicalOutreachDistricts,
+                'daily_trends' => $dailyTrends,
                 'facility_reports' => $facilityRows
             ]);
 

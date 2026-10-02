@@ -30,6 +30,14 @@ require_once __DIR__ . '/includes/header.php';
         </div>
 
         <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="รวมรายงานสถานการณ์อุทกภัย 2569.xlsx" download class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.4rem;" title="ดาวน์โหลดไฟล์แบบรายงานสถานการณ์อุทกภัยทางการ">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>ดาวน์โหลด Excel ทางการ</span>
+            </a>
+            <a href="onepage.php" id="link_onepage_view" target="_blank" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                <span>ดู OnePage วันนี้</span>
+            </a>
             <?php if ($user['role'] === 'superadmin'): ?>
                 <a href="admin.php" class="btn btn-outline">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
@@ -41,7 +49,7 @@ require_once __DIR__ . '/includes/header.php';
                 <span>บันทึกรายงานหน่วยงาน</span>
             </a>
             <button type="button" id="btn_refresh_overview" class="btn btn-primary">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="12 20 12 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                 <span>รีเฟรชข้อมูล</span>
             </button>
         </div>
@@ -123,12 +131,15 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 
     <!-- Navigation Tabs for Views -->
-    <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 2px;">
+    <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 2px; flex-wrap: wrap;">
         <button type="button" class="tab-btn active" data-tab="tab_districts" style="font-family: var(--font-heading); font-weight: 600; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid var(--color-primary); color: var(--color-primary); cursor: pointer; font-size: 0.95rem;">
             ภาพรวมแยก 7 อำเภอ
         </button>
         <button type="button" class="tab-btn" data-tab="tab_vulnerable" style="font-family: var(--font-heading); font-weight: 500; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid transparent; color: var(--color-text-muted); cursor: pointer; font-size: 0.95rem;">
             สรุปยอด 8 กลุ่มเปราะบาง
+        </button>
+        <button type="button" class="tab-btn" data-tab="tab_daily_trends" style="font-family: var(--font-heading); font-weight: 500; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid transparent; color: var(--color-text-muted); cursor: pointer; font-size: 0.95rem;">
+            📊 แนวโน้มรายวัน (ตามแบบ Excel 2569)
         </button>
         <button type="button" class="tab-btn" data-tab="tab_facilities" style="font-family: var(--font-heading); font-weight: 500; padding: 0.65rem 1.25rem; background: none; border: none; border-bottom: 3px solid transparent; color: var(--color-text-muted); cursor: pointer; font-size: 0.95rem;">
             รายชื่อสถานบริการและสถานะการส่ง
@@ -140,11 +151,11 @@ require_once __DIR__ . '/includes/header.php';
 
     <!-- TAB 1: สรุปภาพรวมแยก 7 อำเภอ -->
     <div id="tab_districts" class="tab-pane active">
-        <div class="gov-card">
+        <div class="gov-card" style="margin-bottom: 1.5rem;">
             <div class="gov-card-header">
                 <div class="gov-card-title">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                    <span>ตารางสรุปสถานการณ์อุทกภัยจำแนกรายอำเภอ จังหวัดอ่างทอง</span>
+                    <span>1. ตารางสรุปสถานการณ์อุทกภัยจำแนกรายอำเภอ จังหวัดอ่างทอง</span>
                 </div>
             </div>
             <div class="table-responsive">
@@ -164,6 +175,37 @@ require_once __DIR__ . '/includes/header.php';
                     <tbody id="district_breakdown_tbody">
                         <tr><td colspan="8" style="padding: 2rem;">กำลังโหลดข้อมูลสรุปรายอำเภอ...</td></tr>
                     </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Medical Outreach by District (matching Excel table top right) -->
+        <div class="gov-card">
+            <div class="gov-card-header">
+                <div class="gov-card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                    <span>2. สรุปผลบริการแพทย์และการออกหน่วยเคลื่อนที่ จำแนกรายอำเภอ (ตามแบบ Excel 2569)</span>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="gov-table" style="text-align: center;">
+                    <thead>
+                        <tr style="background: #f8fafc;">
+                            <th style="text-align: left;">อำเภอ</th>
+                            <th>ออกเยี่ยมบ้าน (ราย)</th>
+                            <th>จ่ายยา (ราย)</th>
+                            <th>สุขศึกษา (ราย)</th>
+                            <th>ตรวจรักษา (ราย)</th>
+                            <th>คัดกรองสุขภาพจิต (ราย)</th>
+                            <th>การส่งต่อ (ราย)</th>
+                            <th>ประชาชนรับบริการ (คน)</th>
+                            <th>ทีมปฏิบัติการ (ทีม)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="medical_outreach_district_tbody">
+                        <tr><td colspan="9" style="padding: 1.5rem;">กำลังโหลดข้อมูลบริการแพทย์รายอำเภอ...</td></tr>
+                    </tbody>
+                    <tfoot id="medical_outreach_district_tfoot" style="background: #eff6ff; font-weight: 700;"></tfoot>
                 </table>
             </div>
         </div>
@@ -273,6 +315,60 @@ require_once __DIR__ . '/includes/header.php';
                     </thead>
                     <tbody id="audit_logs_tbody">
                         <tr><td colspan="5" style="text-align: center; padding: 2rem;">กำลังโหลดประวัติการปฏิบัติงาน...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 5: ตารางแนวโน้มสถานการณ์กลุ่มเปราะบางแยกตามวัน (Daily Trend & Time Series ตามแบบ Excel 2569) -->
+    <div id="tab_daily_trends" class="tab-pane" style="display: none;">
+        <div class="gov-card">
+            <div class="gov-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                <div class="gov-card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span>ตารางสรุปติดตามกลุ่มเปราะบาง 8 กลุ่ม แยกตามวัน (Time Series Trend - แบบรายงานสถานการณ์อุทกภัย จังหวัดอ่างทอง ปี 2569)</span>
+                </div>
+                <div style="font-size: 0.9rem; color: var(--color-text-secondary);">
+                    * แสดงข้อมูลเปรียบเทียบย้อนหลังรายวัน ตามโครงสร้างแถว 16 - 25 ของไฟล์ทางการ
+                </div>
+            </div>
+            <div class="table-responsive" style="overflow-x: auto;">
+                <table class="gov-table" style="text-align: center; min-width: 1400px; font-size: 0.875rem;">
+                    <thead>
+                        <tr style="text-align: center; background: #0f2c4c; color: #ffffff;">
+                            <th rowspan="2" style="vertical-align: middle; min-width: 105px;">วันที่</th>
+                            <th rowspan="2" style="vertical-align: middle; min-width: 75px;">รายงานแล้ว<br>(แห่ง)</th>
+                            <th colspan="4" style="background: #1e3a8a;">1. ผู้ป่วยติดเตียง</th>
+                            <th colspan="3" style="background: #6b21a8;">2. ผู้ป่วยฟอกไต</th>
+                            <th colspan="3" style="background: #9a3412;">3. จิตเวช (รับยา)</th>
+                            <th colspan="4" style="background: #065f46;">4. ผู้สูงอายุ (มีโรค)</th>
+                            <th colspan="3" style="background: #155e75;">5. ผู้พิการ</th>
+                            <th colspan="3" style="background: #854d0e;">6. ผู้ป่วย NCD</th>
+                            <th colspan="3" style="background: #831843;">7. หญิงตั้งครรภ์</th>
+                            <th colspan="3" style="background: #3730a3;">8. เด็ก 0-5 ปี</th>
+                        </tr>
+                        <tr style="font-size: 0.8rem; background: #f1f5f9;">
+                            <!-- Bedridden -->
+                            <th>น้ำท่วม</th><th>อยู่บ้าน</th><th>พักพิง</th><th>ส่ง รพ.</th>
+                            <!-- Dialysis -->
+                            <th>น้ำท่วม</th><th>อยู่บ้าน</th><th style="color: #b91c1c;">ขาดฟอกไต</th>
+                            <!-- Psychiatric -->
+                            <th>น้ำท่วม</th><th>อยู่บ้าน</th><th style="color: #b91c1c;">มีปัญหา</th>
+                            <!-- Elderly -->
+                            <th>น้ำท่วม</th><th>อยู่บ้าน</th><th>มีโรค</th><th style="color: #b91c1c;">ขาดยา</th>
+                            <!-- Disabled -->
+                            <th>น้ำท่วม</th><th>อยู่บ้าน</th><th style="color: #b91c1c;">มีปัญหา</th>
+                            <!-- NCD -->
+                            <th>น้ำท่วม</th><th>อยู่บ้าน</th><th style="color: #b91c1c;">ขาดยา</th>
+                            <!-- Pregnant -->
+                            <th>น้ำท่วม</th><th>อยู่บ้าน</th><th style="color: #b91c1c;">มีปัญหา</th>
+                            <!-- Children -->
+                            <th>น้ำท่วม</th><th>อยู่บ้าน</th><th style="color: #b91c1c;">มีปัญหา</th>
+                        </tr>
+                    </thead>
+                    <tbody id="daily_trend_tbody">
+                        <tr><td colspan="28" style="padding: 2rem;">กำลังโหลดข้อมูลแนวโน้มรายวัน...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -565,6 +661,180 @@ document.addEventListener('DOMContentLoaded', function () {
         // 4. Facility list
         rawFacilityList = data.facility_reports || [];
         renderFacilities(rawFacilityList);
+
+        // 5. Medical outreach summary by district (Table 2 - Section 2 in Excel 2569)
+        const medOutreachTbody = document.getElementById('medical_outreach_district_tbody');
+        const medOutreachTfoot = document.getElementById('medical_outreach_district_tfoot');
+        if (medOutreachTbody && data.medical_outreach_districts) {
+            if (data.medical_outreach_districts.length === 0) {
+                medOutreachTbody.innerHTML = '<tr><td colspan="9" style="padding: 1.5rem; color: #64748b;">ไม่พบข้อมูลบริการแพทย์ในวันที่เลือก</td></tr>';
+                if (medOutreachTfoot) medOutreachTfoot.innerHTML = '';
+            } else {
+                let html = '';
+                let sumHomeVisits = 0;
+                let sumMedDispenses = 0;
+                let sumHealthEdus = 0;
+                let sumTreatments = 0;
+                let sumMental = 0;
+                let sumReferrals = 0;
+                let sumPeople = 0;
+                let sumTeams = 0;
+
+                data.medical_outreach_districts.forEach(row => {
+                    const hv = parseInt(row.home_visits || 0);
+                    const md = parseInt(row.med_dispenses || 0);
+                    const he = parseInt(row.health_edus || 0);
+                    const tr = parseInt(row.treatments || 0);
+                    const ms = parseInt(row.mental_screened || 0);
+                    const rf = parseInt(row.referrals || 0);
+                    const ps = parseInt(row.people_served || 0);
+                    const totalTeams = parseInt(row.mobile_clinics || 0) + parseInt(row.mcatt_teams || 0) + parseInt(row.srrt_teams || 0) + parseInt(row.shert_teams || 0);
+
+                    sumHomeVisits += hv;
+                    sumMedDispenses += md;
+                    sumHealthEdus += he;
+                    sumTreatments += tr;
+                    sumMental += ms;
+                    sumReferrals += rf;
+                    sumPeople += ps;
+                    sumTeams += totalTeams;
+
+                    html += `
+                        <tr>
+                            <td style="text-align: left; font-weight: 600; color: #0f2c4c;">${escapeHtml(row.district_name)}</td>
+                            <td>${hv.toLocaleString()}</td>
+                            <td>${md.toLocaleString()}</td>
+                            <td>${he.toLocaleString()}</td>
+                            <td>${tr.toLocaleString()}</td>
+                            <td>${ms.toLocaleString()}</td>
+                            <td>${rf.toLocaleString()}</td>
+                            <td style="font-weight: 700; color: #1e3a8a;">${ps.toLocaleString()}</td>
+                            <td>
+                                <span class="badge ${totalTeams > 0 ? 'badge-approved' : 'badge-role-user'}" title="โมบาย: ${row.mobile_clinics || 0}, MCATT: ${row.mcatt_teams || 0}, SRRT: ${row.srrt_teams || 0}, ShERT: ${row.shert_teams || 0}">
+                                    ${totalTeams.toLocaleString()} ทีม
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                });
+                medOutreachTbody.innerHTML = html;
+
+                if (medOutreachTfoot) {
+                    medOutreachTfoot.innerHTML = `
+                        <tr>
+                            <td style="text-align: left;">รวมทั้งจังหวัด (7 อำเภอ)</td>
+                            <td>${sumHomeVisits.toLocaleString()}</td>
+                            <td>${sumMedDispenses.toLocaleString()}</td>
+                            <td>${sumHealthEdus.toLocaleString()}</td>
+                            <td>${sumTreatments.toLocaleString()}</td>
+                            <td>${sumMental.toLocaleString()}</td>
+                            <td>${sumReferrals.toLocaleString()}</td>
+                            <td style="color: #1e3a8a; font-size: 1rem;">${sumPeople.toLocaleString()}</td>
+                            <td>${sumTeams.toLocaleString()} ทีม</td>
+                        </tr>
+                    `;
+                }
+            }
+        }
+
+        // 6. Daily Trends Table (Tab 5 - Excel Rows 16-25 Time Series)
+        const trendTbody = document.getElementById('daily_trend_tbody');
+        if (trendTbody && data.daily_trends) {
+            if (data.daily_trends.length === 0) {
+                trendTbody.innerHTML = '<tr><td colspan="28" style="padding: 2rem; color: #64748b;">ยังไม่มีข้อมูลรายงานย้อนหลังในระบบ</td></tr>';
+            } else {
+                let html = '';
+                const thaiMonths = ['', 'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+
+                data.daily_trends.forEach(row => {
+                    let dateDisplay = row.report_date;
+                    try {
+                        const parts = row.report_date.split('-');
+                        if (parts.length === 3) {
+                            const d = parseInt(parts[2], 10);
+                            const m = parseInt(parts[1], 10);
+                            const y = parseInt(parts[0], 10) + 543;
+                            dateDisplay = `${d} ${thaiMonths[m] || ''} ${String(y).slice(-2)}`;
+                        }
+                    } catch(e) {}
+
+                    const isCurrentSelected = (row.report_date === dateInput.value);
+                    const rowStyle = isCurrentSelected ? 'background: #fefce8; font-weight: 600;' : '';
+
+                    html += `
+                        <tr style="${rowStyle}">
+                            <td style="font-weight: 700; color: #0f2c4c; white-space: nowrap;">
+                                ${dateDisplay} ${isCurrentSelected ? '<span class="badge" style="background:#fef08a; color:#854d0e; font-size:0.7rem; padding:1px 4px;">เลือก</span>' : ''}
+                            </td>
+                            <td><span class="badge badge-approved">${parseInt(row.facilities_reported || 0)}</span></td>
+                            
+                            <!-- 1. Bedridden -->
+                            <td style="color: #b91c1c; font-weight: 600;">${parseInt(row.bedridden_flooded || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.bedridden_home || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.bedridden_shelter || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.bedridden_hospital || 0).toLocaleString()}</td>
+
+                            <!-- 2. Dialysis -->
+                            <td style="color: #b91c1c; font-weight: 600;">${parseInt(row.dialysis_flooded || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.dialysis_home || 0).toLocaleString()}</td>
+                            <td style="color: ${parseInt(row.dialysis_missed || 0) > 0 ? '#dc2626' : '#64748b'}; font-weight: ${parseInt(row.dialysis_missed || 0) > 0 ? '700' : 'normal'};">
+                                ${parseInt(row.dialysis_missed || 0).toLocaleString()}
+                            </td>
+
+                            <!-- 3. Psychiatric -->
+                            <td style="color: #b91c1c; font-weight: 600;">${parseInt(row.psychiatric_flooded || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.psychiatric_home || 0).toLocaleString()}</td>
+                            <td style="color: ${parseInt(row.psychiatric_health_issue || 0) > 0 ? '#dc2626' : '#64748b'}; font-weight: ${parseInt(row.psychiatric_health_issue || 0) > 0 ? '700' : 'normal'};">
+                                ${parseInt(row.psychiatric_health_issue || 0).toLocaleString()}
+                            </td>
+
+                            <!-- 4. Elderly -->
+                            <td style="color: #b91c1c; font-weight: 600;">${parseInt(row.elderly_flooded || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.elderly_home || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.elderly_total || 0).toLocaleString()}</td>
+                            <td style="color: ${parseInt(row.elderly_out_of_meds || 0) > 0 ? '#dc2626' : '#64748b'}; font-weight: ${parseInt(row.elderly_out_of_meds || 0) > 0 ? '700' : 'normal'};">
+                                ${parseInt(row.elderly_out_of_meds || 0).toLocaleString()}
+                            </td>
+
+                            <!-- 5. Disabled -->
+                            <td style="color: #b91c1c; font-weight: 600;">${parseInt(row.disabled_flooded || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.disabled_home || 0).toLocaleString()}</td>
+                            <td style="color: ${parseInt(row.disabled_health_issue || 0) > 0 ? '#dc2626' : '#64748b'}; font-weight: ${parseInt(row.disabled_health_issue || 0) > 0 ? '700' : 'normal'};">
+                                ${parseInt(row.disabled_health_issue || 0).toLocaleString()}
+                            </td>
+
+                            <!-- 6. NCD -->
+                            <td style="color: #b91c1c; font-weight: 600;">${parseInt(row.ncd_flooded || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.ncd_home || 0).toLocaleString()}</td>
+                            <td style="color: ${parseInt(row.ncd_out_of_meds || 0) > 0 ? '#dc2626' : '#64748b'}; font-weight: ${parseInt(row.ncd_out_of_meds || 0) > 0 ? '700' : 'normal'};">
+                                ${parseInt(row.ncd_out_of_meds || 0).toLocaleString()}
+                            </td>
+
+                            <!-- 7. Pregnant -->
+                            <td style="color: #b91c1c; font-weight: 600;">${parseInt(row.pregnant_flooded || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.pregnant_home || 0).toLocaleString()}</td>
+                            <td style="color: ${parseInt(row.pregnant_health_issue || 0) > 0 ? '#dc2626' : '#64748b'}; font-weight: ${parseInt(row.pregnant_health_issue || 0) > 0 ? '700' : 'normal'};">
+                                ${parseInt(row.pregnant_health_issue || 0).toLocaleString()}
+                            </td>
+
+                            <!-- 8. Children -->
+                            <td style="color: #b91c1c; font-weight: 600;">${parseInt(row.children_flooded || 0).toLocaleString()}</td>
+                            <td>${parseInt(row.children_home || 0).toLocaleString()}</td>
+                            <td style="color: ${parseInt(row.children_health_issue || 0) > 0 ? '#dc2626' : '#64748b'}; font-weight: ${parseInt(row.children_health_issue || 0) > 0 ? '700' : 'normal'};">
+                                ${parseInt(row.children_health_issue || 0).toLocaleString()}
+                            </td>
+                        </tr>
+                    `;
+                });
+                trendTbody.innerHTML = html;
+            }
+        }
+
+        // 7. Update OnePage preview link
+        const onepageLink = document.getElementById('link_onepage_view');
+        if (onepageLink) {
+            onepageLink.href = `onepage.php?report_date=${encodeURIComponent(dateInput.value)}`;
+        }
     }
 
     function renderFacilities(list) {

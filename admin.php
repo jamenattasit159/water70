@@ -47,6 +47,34 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </div>
 
+<!-- Quick Action / Shortcut to Provincial Flood Analytics -->
+<div class="gov-card" style="margin-bottom: 1.75rem; border-left: 4px solid var(--primary-600); background: linear-gradient(to right, #eff6ff, #f8fafc);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; padding: 1rem 1.25rem;">
+        <div style="display: flex; align-items: center; gap: 0.85rem;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #dbeafe; color: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0;">
+                📊
+            </div>
+            <div>
+                <div style="font-weight: 700; color: #0f2c4c; font-size: 1.05rem;">
+                    ศูนย์ติดตามสถานการณ์และสรุปรายงานอุทกภัยระดับจังหวัด (ตามแบบฟอร์ม 2569)
+                </div>
+                <div style="font-size: 0.85rem; color: #64748b;">
+                    วิเคราะห์ข้อมูล 8 กลุ่มเปราะบางรายหมู่บ้าน บริการแพทย์เคลื่อนที่รายอำเภอ และแนวโน้ม Time Series ตามไฟล์รวมรายงานอุทกภัย 2569
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <a href="provincial_overview.php" class="btn btn-primary" style="font-size: 0.875rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                <span>เปิดแดชบอร์ดภาพรวมจังหวัด</span>
+            </a>
+            <a href="onepage.php" target="_blank" class="btn btn-outline" style="font-size: 0.875rem;">
+                <span>ดู OnePage ผู้บริหาร</span>
+            </a>
+        </div>
+    </div>
+</div>
+
 <!-- Modern SaaS Stat Cards (Clean white surfaces, soft colored icon circles) -->
 <div class="stats-grid">
     <div class="stat-card">

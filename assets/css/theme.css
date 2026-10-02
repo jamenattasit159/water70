@@ -660,30 +660,85 @@ a:hover {
 .auth-page-root {
     min-height: 100vh;
     display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--color-bg);
+    padding: 2rem 1rem;
 }
 
-.auth-split-wrapper {
-    display: flex;
-    width: 100vw;
-    min-height: 100vh;
+.auth-minimal-wrapper {
+    width: 100%;
+    max-width: 480px;
+    margin: auto;
 }
 
-/* Left Hero Branding Pane */
-.auth-brand-pane {
-    flex: 1.15;
-    background: linear-gradient(145deg, #1e3a8a 0%, #1d4ed8 50%, #0369a1 100%);
-    color: #ffffff;
-    padding: 3.5rem;
+.auth-topbar {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
-    position: relative;
-    overflow: hidden;
+    margin-bottom: 1rem;
 }
 
-[data-theme="dark"] .auth-brand-pane {
-    background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 60%, #1e40af 100%);
+.auth-card {
+    background-color: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 2.25rem 2rem;
+}
+
+.auth-card-header {
+    text-align: center;
+    margin-bottom: 1.75rem;
+}
+
+.auth-logo-badge {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 0.85rem auto;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1.5px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-xs);
+}
+
+.auth-logo-badge img {
+    width: 62px;
+    height: 62px;
+    object-fit: contain;
+}
+
+.auth-subtitle {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.auth-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0.35rem 0 0.25rem 0;
+    font-family: var(--font-heading);
+}
+
+.auth-desc {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    margin: 0;
+}
+
+.auth-bottom-note {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
 }
 
 /* Decorative subtle wave & mesh background */
